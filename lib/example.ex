@@ -18,9 +18,9 @@ defmodule Example do
 
     from(
       m in Example.Measurement,
-      select: [fragment("date_trunc(?, time_utc_datetime)", ^granularity), count(m.id)],
-      group_by: [:time_utc_datetime],
-      order_by: [:time_utc_datetime]
+      select: fragment("date_trunc(?, time_utc_datetime)", ^granularity),
+      group_by: :time_utc_datetime,
+      order_by: :time_utc_datetime
     )
     |> Example.Repo.all()
   end
@@ -30,9 +30,9 @@ defmodule Example do
 
     from(
       m in Example.Measurement,
-      select: [fragment("date_trunc(?, time_timestamp)", ^granularity), count(m.id)],
-      group_by: [:time_timestamp],
-      order_by: [:time_timestamp]
+      select: fragment("date_trunc(?, time_timestamp)", ^granularity),
+      group_by: :time_timestamp,
+      order_by: :time_timestamp
     )
     |> Example.Repo.all()
   end
@@ -42,9 +42,9 @@ defmodule Example do
 
     from(
       m in Example.Measurement,
-      select: [fragment("date_trunc(?, time_timestamptz)", ^granularity), count(m.id)],
-      group_by: [:time_timestamptz],
-      order_by: [:time_timestamptz]
+      select: fragment("date_trunc(?, time_timestamptz)", ^granularity),
+      group_by: :time_timestamptz,
+      order_by: :time_timestamptz
     )
     |> Example.Repo.all()
   end
