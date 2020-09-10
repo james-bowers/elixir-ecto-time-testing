@@ -109,8 +109,6 @@ defmodule ExampleTest do
     end
 
     test "time_timestamptz postgres field" do
-      # why is this not ~U[2020-09-01 00:00:00.000000Z] ?
-
       assert [
                ~U[2020-09-06 23:00:00.000000Z],
                ~U[2020-09-06 23:00:00.000000Z],
