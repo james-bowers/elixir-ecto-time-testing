@@ -50,7 +50,7 @@ defmodule ExampleTest do
                ~N[2020-09-10 08:00:00.000000],
                ~N[2020-09-10 09:00:00.000000],
                ~N[2020-09-10 09:00:00.000000]
-             ] == Example.read("time_utc_datetime")
+             ] == Example.read("time_utc_datetime", "hour")
     end
 
     test "time_timestamp postgres field" do
@@ -62,7 +62,7 @@ defmodule ExampleTest do
                ~N[2020-09-10 08:00:00.000000],
                ~N[2020-09-10 09:00:00.000000],
                ~N[2020-09-10 09:00:00.000000]
-             ] == Example.read("time_timestamp")
+             ] == Example.read("time_timestamp", "hour")
     end
 
     test "time_timestamptz postgres field" do
@@ -74,7 +74,7 @@ defmodule ExampleTest do
                ~U[2020-09-10 08:00:00.000000Z],
                ~U[2020-09-10 09:00:00.000000Z],
                ~U[2020-09-10 09:00:00.000000Z]
-             ] == Example.read("time_timestamptz")
+             ] == Example.read("time_timestamptz", "hour")
     end
   end
 
@@ -109,6 +109,8 @@ defmodule ExampleTest do
     end
 
     test "time_timestamptz postgres field" do
+      # why are these not ~U[2020-09-07 00:00:00.000000Z] ?
+
       assert [
                ~U[2020-09-06 23:00:00.000000Z],
                ~U[2020-09-06 23:00:00.000000Z],
