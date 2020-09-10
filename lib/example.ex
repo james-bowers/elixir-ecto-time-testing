@@ -18,7 +18,7 @@ defmodule Example do
 
     from(
       m in Example.Measurement,
-      select: fragment("date_trunc(?, time_utc_datetime)", ^granularity),
+      select: type(fragment("date_trunc(?, ?)", ^granularity, m.time_utc_datetime), :utc_datetime),
       group_by: :time_utc_datetime,
       order_by: :time_utc_datetime
     )
@@ -30,7 +30,7 @@ defmodule Example do
 
     from(
       m in Example.Measurement,
-      select: fragment("date_trunc(?, time_timestamp)", ^granularity),
+      select: type(fragment("date_trunc(?, ?)", ^granularity, m.time_timestamp), :utc_datetime),
       group_by: :time_timestamp,
       order_by: :time_timestamp
     )
@@ -42,7 +42,7 @@ defmodule Example do
 
     from(
       m in Example.Measurement,
-      select: fragment("date_trunc(?, time_timestamptz)", ^granularity),
+      select: type(fragment("date_trunc(?, ?)", ^granularity, m.time_timestamptz), :utc_datetime),
       group_by: :time_timestamptz,
       order_by: :time_timestamptz
     )
