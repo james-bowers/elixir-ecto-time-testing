@@ -18,7 +18,8 @@ defmodule Example do
 
     from(
       m in Example.Measurement,
-      select: type(fragment("date_trunc(?, ?)", ^granularity, m.time_utc_datetime), :utc_datetime),
+      select:
+        type(fragment("date_trunc(?, ?)", ^granularity, m.time_utc_datetime), :utc_datetime),
       group_by: :time_utc_datetime,
       order_by: :time_utc_datetime
     )
