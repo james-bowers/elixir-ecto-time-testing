@@ -6,6 +6,16 @@ defmodule ExampleTest do
     Ecto.Adapters.SQL.Sandbox.mode(Example.Repo, {:shared, self()})
   end
 
+  def seed do
+    {:ok, _} = Example.insert(~U[2020-09-10 07:10:00Z])
+    {:ok, _} = Example.insert(~U[2020-09-10 07:15:00Z])
+    {:ok, _} = Example.insert(~U[2020-09-10 08:07:00Z])
+    {:ok, _} = Example.insert(~U[2020-09-10 08:37:00Z])
+    {:ok, _} = Example.insert(~U[2020-09-10 08:57:00Z])
+    {:ok, _} = Example.insert(~U[2020-09-10 09:10:00Z])
+    {:ok, _} = Example.insert(~U[2020-09-10 09:15:00Z])
+  end
+
   test "inserts utc date time" do
     dt = ~U[2020-09-10 08:07:31Z]
 
@@ -27,14 +37,7 @@ defmodule ExampleTest do
 
   describe "reads dates - granularity by hour" do
     setup do
-      {:ok, _} = Example.insert(~U[2020-09-10 07:10:00Z])
-      {:ok, _} = Example.insert(~U[2020-09-10 07:15:00Z])
-      {:ok, _} = Example.insert(~U[2020-09-10 08:07:00Z])
-      {:ok, _} = Example.insert(~U[2020-09-10 08:37:00Z])
-      {:ok, _} = Example.insert(~U[2020-09-10 08:57:00Z])
-      {:ok, _} = Example.insert(~U[2020-09-10 09:10:00Z])
-      {:ok, _} = Example.insert(~U[2020-09-10 09:15:00Z])
-
+      seed()
       :ok
     end
 
@@ -77,14 +80,7 @@ defmodule ExampleTest do
 
   describe "reads dates - granularity by month" do
     setup do
-      {:ok, _} = Example.insert(~U[2020-09-10 07:10:00Z])
-      {:ok, _} = Example.insert(~U[2020-09-10 07:15:00Z])
-      {:ok, _} = Example.insert(~U[2020-09-10 08:07:00Z])
-      {:ok, _} = Example.insert(~U[2020-09-10 08:37:00Z])
-      {:ok, _} = Example.insert(~U[2020-09-10 08:57:00Z])
-      {:ok, _} = Example.insert(~U[2020-09-10 09:10:00Z])
-      {:ok, _} = Example.insert(~U[2020-09-10 09:15:00Z])
-
+      seed()
       :ok
     end
 
@@ -124,6 +120,49 @@ defmodule ExampleTest do
                [~U[2020-08-31 23:00:00.000000Z], 1],
                [~U[2020-08-31 23:00:00.000000Z], 1]
              ] == Example.read("time_timestamptz", "month")
+    end
+  end
+
+  describe "reads dates - granularity by year" do
+    setup do
+      seed()
+      :ok
+    end
+
+    test "time_utc_datetime postgres field type" do
+      assert [
+               [~N[2020-01-01 00:00:00.000000], 1],
+               [~N[2020-01-01 00:00:00.000000], 1],
+               [~N[2020-01-01 00:00:00.000000], 1],
+               [~N[2020-01-01 00:00:00.000000], 1],
+               [~N[2020-01-01 00:00:00.000000], 1],
+               [~N[2020-01-01 00:00:00.000000], 1],
+               [~N[2020-01-01 00:00:00.000000], 1]
+             ] == Example.read("time_utc_datetime", "year")
+    end
+
+    test "time_timestamp postgres field type" do
+      assert [
+               [~N[2020-01-01 00:00:00.000000], 1],
+               [~N[2020-01-01 00:00:00.000000], 1],
+               [~N[2020-01-01 00:00:00.000000], 1],
+               [~N[2020-01-01 00:00:00.000000], 1],
+               [~N[2020-01-01 00:00:00.000000], 1],
+               [~N[2020-01-01 00:00:00.000000], 1],
+               [~N[2020-01-01 00:00:00.000000], 1]
+             ] == Example.read("time_timestamp", "year")
+    end
+
+    test "time_timestamptz postgres field type" do
+      assert [
+               [~U[2020-01-01 00:00:00.000000Z], 1],
+               [~U[2020-01-01 00:00:00.000000Z], 1],
+               [~U[2020-01-01 00:00:00.000000Z], 1],
+               [~U[2020-01-01 00:00:00.000000Z], 1],
+               [~U[2020-01-01 00:00:00.000000Z], 1],
+               [~U[2020-01-01 00:00:00.000000Z], 1],
+               [~U[2020-01-01 00:00:00.000000Z], 1]
+             ] == Example.read("time_timestamptz", "year")
     end
   end
 end
